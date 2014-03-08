@@ -5,8 +5,10 @@ import argparse
 import os
 import sys
 
+
 def warn(msg):
-    print '[powerline-bash] ', msg
+    print('[powerline-bash] ', msg)
+
 
 class Powerline:
     symbols = {
@@ -67,15 +69,16 @@ class Powerline:
 
     def draw_segment(self, idx):
         segment = self.segments[idx]
-        next_segment = self.segments[idx + 1] if idx < len(self.segments)-1 else None
+        next_segment = self.segments[idx + 1] if idx < len(self.segments) - 1 else None
 
         return ''.join((
-            self.fgcolor(segment[1]),
-            self.bgcolor(segment[2]),
+            self.fgcolor(segment[1]) if segment[1] else self.reset,
+            self.bgcolor(segment[2]) if segment[2] else self.reset,
             segment[0],
-            self.bgcolor(next_segment[2]) if next_segment else self.reset,
+            self.bgcolor(next_segment[2]) if (next_segment and next_segment[2]) else self.reset,
             self.fgcolor(segment[4]),
             segment[3]))
+
 
 def get_valid_cwd():
     """ We check if the current working directory is valid or not. Typically

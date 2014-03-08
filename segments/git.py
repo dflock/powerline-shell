@@ -1,12 +1,14 @@
 import re
 import subprocess
+import os
+import sys
 
 def get_git_status():
     has_pending_commits = True
     has_untracked_files = False
     origin_position = ""
-    output = subprocess.Popen(['git', 'status', '--ignore-submodules'],
-            env={"LANG": "C", "HOME": os.getenv("HOME")}, stdout=subprocess.PIPE).communicate()[0]
+    output = str(subprocess.Popen(['git', 'status', '--ignore-submodules'],
+            env={"LANG": "C", "HOME": os.getenv("HOME")}, stdout=subprocess.PIPE).communicate()[0])
     for line in output.split('\n'):
         origin_status = re.findall(
             r"Your branch is (ahead|behind).*?(\d+) comm", line)
@@ -29,11 +31,14 @@ def add_git_segment():
     p = subprocess.Popen(['git', 'symbolic-ref', '-q', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
 
-    if 'Not a git repo' in err:
+    if 'Not a git repo' in str(err):
         return
 
     if out:
-        branch = out[len('refs/heads/'):].rstrip()
+        if sys.version > '3':
+            branch = str(out, encoding='utf-8')[len("refs/heads/"):].rstrip()
+        else:
+            branch = out[len("refs/heads/"):].rstrip()
     else:
         branch = '(Detached)'
 
