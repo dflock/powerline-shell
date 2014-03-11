@@ -42,7 +42,7 @@ else:
         open(OUTPUT_FILE, 'w').write(source)
         st = os.stat(OUTPUT_FILE)
         os.chmod(OUTPUT_FILE, st.st_mode | stat.S_IEXEC)
-        print(OUTPUT_FILE, 'saved successfully')
+        print(OUTPUT_FILE + ' saved successfully')
     except IOError:
         print('ERROR: Could not write to powerline-shell.py. Make sure it is writable')
         exit(1)
