@@ -9,6 +9,10 @@ def add_battery_segment():
             lines = fh.readlines()
             state = dict(s.split('=') for s in lines)
     except IOError:
+        # This could fail for any number of reasons, but the most likely is that the
+        # file called for does not exist (i.e.: you are running on a desktop, or under
+        # cygwin, or something). Just assume there is no battery, and don't render
+        # a segment.
         return
 
     charge = int(state["POWER_SUPPLY_CAPACITY"])
