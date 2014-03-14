@@ -33,6 +33,6 @@ def add_battery_segment():
         bg = Color.BATTERY_CRT_BG
         fg = Color.BATTERY_CRT_FG
 
-    powerline.append(' %s%s ' % (charge, status), fg, bg)
+    powerline.append(u"\U0001F50B %s%s " % (charge, status), fg, bg)
 
 add_battery_segment()
