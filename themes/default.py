@@ -18,8 +18,8 @@ class DefaultColor:
     CWD_FG = 254            # nearly-white grey
     SEPARATOR_FG = 244
 
-    READONLY_BG = 124
-    READONLY_FG = 254
+    READONLY_BG = 124       # red
+    READONLY_FG = 254       # white
 
     SSH_BG = 166            # medium orange
     SSH_FG = 254
@@ -32,16 +32,23 @@ class DefaultColor:
     JOBS_FG = 39
     JOBS_BG = 238
 
-    CMD_PASSED_BG = 236
-    CMD_PASSED_FG = 15
-    CMD_FAILED_BG = 161
-    CMD_FAILED_FG = 15
+    CMD_PASSED_BG = 236     # dark gray
+    CMD_PASSED_FG = 15      # white
+    CMD_FAILED_BG = 161     # light red/pink
+    CMD_FAILED_FG = 15      # white
 
-    SVN_CHANGES_BG = 148
+    SVN_CHANGES_BG = 148    # light green
     SVN_CHANGES_FG = 22     # dark green
 
     VIRTUAL_ENV_BG = 35     # a mid-tone green
-    VIRTUAL_ENV_FG = 00
+    VIRTUAL_ENV_FG = 00     # black
+
+    BATTERY_NRM_BG = 22
+    BATTERY_NRM_FG = 254
+    BATTERY_LOW_BG = 118
+    BATTERY_LOW_FG = 237
+    BATTERY_CRT_BG = 9
+    BATTERY_CRT_FG = 147
 
 class Color(DefaultColor):
     """
