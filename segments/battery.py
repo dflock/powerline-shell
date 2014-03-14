@@ -1,11 +1,12 @@
 def add_battery_segment():
-    charge = 99
-    status = "+"
-    status_file = "/sys/class/power_supply/BAT0/uevent"
+    charge = 00
+    status = "X"
+    status_file = "/sys/class/power_supply/BAT0/uevent"  # This is where it is for me...
 
     state = dict()
     try:
         with open(status_file) as fh:
+            # Convert the key=value lines in the file into a dictionary
             lines = fh.readlines()
             state = dict(s.split('=') for s in lines)
     except IOError:
@@ -16,9 +17,12 @@ def add_battery_segment():
         return
 
     charge = int(state["POWER_SUPPLY_CAPACITY"])
-    status = u'\u21E3' if state["POWER_SUPPLY_STATUS"][0] == 'D' else u'\u21E1'
+    if state["POWER_SUPPLY_STATUS"][0] == 'D':  # "D" for "Discharging"
+        status = u'\u21E3'  # Down arrow
+    else:
+        status = u'\u21E1'  # Up arrow
 
-    if charge > 99:
+    if charge > 99:  # If fully charged, don't show any status arrows
         charge = 100
         status = ""
 
@@ -33,6 +37,7 @@ def add_battery_segment():
         bg = Color.BATTERY_CRT_BG
         fg = Color.BATTERY_CRT_FG
 
+    # Battery symbol, then percentage remaining, then charge status arrow
     powerline.append(u"\U0001F50B %s%s " % (charge, status), fg, bg)
 
 add_battery_segment()
