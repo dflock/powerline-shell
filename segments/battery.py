@@ -17,13 +17,11 @@ def add_battery_segment():
 
     charge = int(state["POWER_SUPPLY_CAPACITY"])
     status = u'\u21E3' if state["POWER_SUPPLY_STATUS"][0] == 'D' else u'\u21E1'
-    # status = state["POWER_SUPPLY_STATUS"][0]
 
     if charge > 99:
         charge = 100
         status = ""
 
-    # print(' %s%s ' % (charge, status))
     # set colors based on charge state
     if charge > 30:
         bg = Color.BATTERY_NRM_BG
