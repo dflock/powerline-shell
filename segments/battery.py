@@ -21,9 +21,10 @@ def add_battery_segment():
         status = u'\U0001F50B'  # Battery symbol
     else:
         status = u'\U0001F50C'  # Power plug symbol
-        if charge >= 100:  # If fully charged, don't show any status arrows
-            charge = 100
-            status = ""
+
+    if charge >= 100:  # If fully charged, don't show any status arrows
+        charge = 100
+        status = ""
 
     # set colors based on charge state
     if charge > 30:
