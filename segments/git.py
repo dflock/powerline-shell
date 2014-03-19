@@ -117,9 +117,9 @@ def add_git_segment():
         if origin_status:
             origin_position = " %d" % int(origin_status[0][1])
             if origin_status[0][0] == 'behind':
-                origin_position += u'\u21E3'
+                origin_position += u'\u2193'
             if origin_status[0][0] == 'ahead':
-                origin_position += u'\u21E1'
+                origin_position += u'\u2191'
 
         if line.find('nothing to commit') >= 0:
             has_pending_commits = False
