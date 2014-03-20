@@ -3,6 +3,9 @@ import sys
 
 
 def samefile(path1, path2):
+    # ensure we actually _got_ two comperable arguments...
+    if not path1 or not path2:
+        return False;
     return os.path.normcase(os.path.normpath(path1)) == os.path.normcase(os.path.normpath(path2))
 
 
