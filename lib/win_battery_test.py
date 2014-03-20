@@ -1,14 +1,17 @@
 #! /usr/bin/python
 
+# For this to work, you must have Windows python installed (cygwin won't cut it),
+# the pywin32 package from SourceForge (http://sourceforge.net/projects/pywin32/),
+# and the WMI module (pip install WMI).
+
 import wmi
 
 c = wmi.WMI()
 t = wmi.WMI(moniker = "//./root/wmi")
-
 batts1 = c.CIM_Battery(Caption = 'Portable Battery')
+
 for i, b in enumerate(batts1):
     print('Battery %d Design Capacity: %d mWh' % (i, b.DesignCapacity or 0))
-
 
 batts = t.ExecQuery('Select * from BatteryFullChargedCapacity')
 for i, b in enumerate(batts):
