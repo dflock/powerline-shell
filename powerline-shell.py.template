@@ -20,7 +20,7 @@ class Powerline:
         },
         'patched': {
             'lock': u'\uE0A2',
-            'network': u'\u203B',
+            'network': u'\u21D4',
             'separator': u'\uE0B0',
             'separator_thin': u'\uE0B1'
         },
