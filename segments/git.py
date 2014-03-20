@@ -7,7 +7,12 @@ from distutils.version import LooseVersion
 def add_git_segment():
     # Quickly check to see if this is even a git repo
     # See http://git-blame.blogspot.com/2013/06/checking-current-branch-programatically.html
-    p = subprocess.Popen(['git', 'symbolic-ref', '-q', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.Popen([
+            'git', 
+            'symbolic-ref', 
+            '-q', 
+            'HEAD'
+        ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
 
     if 'Not a git repo' in str(err):
@@ -73,44 +78,57 @@ def add_git_segment():
         elif os.path.exists(os.path.join(git_dir, "BISECT_LOG")):
             xtra = "|BISECTING"
 
-        # As a last resort, just get whatever head you can
-        if not head:
-            with open(os.path.join(git_dir, "HEAD")) as fh:
-                head = fh.read().strip()
-
-        # Strip "/refs/heads/"
-        if head:
-            parts = head.split('/')
+    # If we haven't found a name for the head yet, try to get one
+    if not head:
+        with open(os.path.join(git_dir, "HEAD")) as fh:
+            # Strip "/refs/heads/"
+            parts = fh.read().strip().split('/')
             if len(parts) == 3:
                 head = parts[-1]
-            else:
-                head = "(%s)" % short_sha
+
+    # Still no head? Maybe its a tag. Try to get a description.
+    if not head:
+        p = subprocess.Popen([
+                'git', 
+                'describe', 
+                '--tags',
+                '--exact-match', 
+                'HEAD'
+            ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        if not err:
+            head = "%s" % out.decode('UTF-8').strip()
+            xtra = "|TAG"
+
+    # _Still_ don't have a head? As a last resort, just use the hash
+    if not head:
+        head = "(%s)" % short_sha
+        xtra = "|DETATCHED"
 
     # Assemble the display data
     if step and total:
         xtra += " %s/%s" % (step, total)
-
     branch = head + xtra
 
     if inside_gitdir:
         if bare_repo:
-            branch = "BARE:"
+            branch = "BARE:" + branch
         else:
             branch = "GIT_DIR!"
-
-    # See if therer is anything stashed
-    has_stash = os.path.exists(os.path.join(git_dir, "refs", "stash"))
 
     # Get various status bits about the current repo
     has_pending_commits = True
     has_untracked_files = False
     origin_position = ""
+
+    # --ignore-submodules isn't supported on old git versions
     git_ver = str(subprocess.Popen(['git', '--version'], stdout=subprocess.PIPE).communicate()[0])
     ver = re.findall(r"(?:.* )([\d.]+)", git_ver)[0]
     if LooseVersion(ver) > LooseVersion('1.7.5'):
         output = str(subprocess.Popen(['git', 'status', '--ignore-submodules'], stdout=subprocess.PIPE).communicate()[0])
     else:
         output = str(subprocess.Popen(['git', 'status'], stdout=subprocess.PIPE).communicate()[0])
+
     for line in output.split('\n'):
         origin_status = re.findall(
             r"Your branch is (ahead|behind).*?(\d+) comm", line)
@@ -125,6 +143,8 @@ def add_git_segment():
             has_pending_commits = False
         if line.find('Untracked files') >= 0:
             has_untracked_files = True
+
+    has_stash = os.path.exists(os.path.join(git_dir, "refs", "stash"))
 
     # Color indicates pending commits
     bg = Color.REPO_CLEAN_BG
