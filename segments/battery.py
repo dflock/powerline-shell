@@ -1,5 +1,5 @@
 import platform
-import os
+from subprocess import Popen, PIPE
 
 def add_battery_segment():
     charge = 00
@@ -25,8 +25,22 @@ def add_battery_segment():
         else:
             status = powerline.charge
     elif "CYGWIN" in platform.system():
-        charge = int(os.popen('wmic path win32_battery get estimatedchargeremaining').read().strip().split('\n')[-1])
-        state = int(os.popen('wmic path win32_battery get batterystatus').read().strip().split('\n')[-1])
+        # First, lets (quickly) try to even see if this system _has_ a battery
+        line = Popen('wmic path win32_battery get batterystatus', shell=True, stdout=PIPE, stderr=PIPE).stderr.readline()
+        if "No Instance" in line:
+            # Nope, no battery. Bail out now.
+            return
+
+        # We're pretty sure we have a battery, so get its status
+        try:
+            state = int(Popen('wmic path win32_battery get batterystatus', shell=True, stdout=PIPE).stdout.read().strip().split('\n')[-1])
+            charge = int(Popen('wmic path win32_battery get estimatedchargeremaining', shell=True, stdout=PIPE).stdout.read().strip().split('\n')[-1])
+        except ValueError:
+            # This fails if one of these two commands doesn't result in an int, which
+            # probably means that there is no battery to get the status of, so we
+            # are pobably on a desktop. Just abort.
+            return
+
         if state == 1:
             status = powerline.discharge
         else:
