@@ -37,7 +37,7 @@ This script uses ANSI color codes (256 color mode) to display colors in a termin
   * If you don't want the symlink, just copy it somewhere convenient and modify the path in the commands below
 
 * Patch the font you use for your terminal: see `https://github.com/Lokaltog/powerline-fonts`
-  * The `powerline-fonts` repo is included inside this one as a submodule in the `fonts` folder, but is not actually pulled down to your computer by default. Sssuming you have already cloned this repo, and are inside it, the fonts can be pulled with:
+  * The `powerline-fonts` repo is included inside this one as a submodule in the `fonts` folder, but is not actually pulled down to your computer by default. Assuming you have already cloned this repo, and are inside it, the fonts can be pulled with:
 
         git submodule init && git sumbodule update
 
