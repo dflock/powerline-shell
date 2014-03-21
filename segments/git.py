@@ -1,16 +1,17 @@
 import re
 import subprocess
 import os
-import sys
 from distutils.version import LooseVersion
+
 
 def add_git_segment():
     # Quickly check to see if this is even a git repo
     # See http://git-blame.blogspot.com/2013/06/checking-current-branch-programatically.html
-    p = subprocess.Popen([
-            'git', 
-            'symbolic-ref', 
-            '-q', 
+    p = subprocess.Popen(
+        [
+            'git',
+            'symbolic-ref',
+            '-q',
             'HEAD'
         ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
@@ -35,7 +36,7 @@ def add_git_segment():
     git_dir = parts[0]
     inside_gitdir = parts[1] == 'true'
     bare_repo = parts[2] == 'true'
-    inside_worktree = parts[3] == 'true'
+    # inside_worktree = parts[3] == 'true'
     short_sha = parts[4]
 
     xtra = ""
@@ -88,11 +89,12 @@ def add_git_segment():
 
     # Still no head? Maybe its a tag. Try to get a description.
     if not head:
-        p = subprocess.Popen([
-                'git', 
-                'describe', 
+        p = subprocess.Popen(
+            [
+                'git',
+                'describe',
                 '--tags',
-                '--exact-match', 
+                '--exact-match',
                 'HEAD'
             ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()

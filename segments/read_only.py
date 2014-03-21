@@ -1,5 +1,6 @@
 import os
 
+
 def add_read_only_segment():
     cwd = powerline.cwd or os.getenv('PWD')
 

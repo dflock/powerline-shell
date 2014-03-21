@@ -1,5 +1,6 @@
 import os
 
+
 def add_ssh_segment():
 
     if os.getenv('SSH_CLIENT'):

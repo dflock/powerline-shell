@@ -1,6 +1,7 @@
 import platform
 from subprocess import Popen, PIPE
 
+
 def add_battery_segment():
     charge = 00
     status = "X"

@@ -1,6 +1,7 @@
 import os
 import subprocess
 
+
 def get_hg_status():
     has_modified_files = False
     has_untracked_files = False
@@ -16,6 +17,7 @@ def get_hg_status():
         else:
             has_modified_files = True
     return has_modified_files, has_untracked_files, has_missing_files
+
 
 def add_hg_segment():
     branch = os.popen('hg branch 2> /dev/null').read().rstrip()

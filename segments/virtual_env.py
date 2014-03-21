@@ -1,5 +1,6 @@
 import os
 
+
 def add_virtual_env_segment():
     env = os.getenv('VIRTUAL_ENV')
     if env is None:
