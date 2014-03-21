@@ -7,23 +7,18 @@ A [Powerline](https://github.com/Lokaltog/vim-powerline) like prompt for Bash, Z
 
 *  Shows some important details about the git/svn/hg/fossil branch:
     *  Displays the current branch which changes background color when the branch is dirty
-    *  A '+' appears when untracked files are present
-    *  When the local branch differs from the remote, the difference in number of commits is shown along with '↑' or '↓' indicating whether a git push or pull is pending
-    * '§' indicates pending stash
+    *  VCS specific symbols are used to indicate other status info (e.g.: pending stashes, ahead/behind origin, etc...)
+    *  The git segment is the most mature, but the others should at least get you basic info
 *  Changes color if the last command exited with a failure code
 *  If you're too deep into a directory tree, shortens the displayed path with an ellipsis
-*  Shows the current Python [virtualenv](http://www.virtualenv.org/) environment
 *  Shows current battery status on Linux laptops
+*  Shows the current Python [virtualenv](http://www.virtualenv.org/) environment
 *  Support for Python 2.7+
 *  It's easy to customize and extend. See below for details.
 
 # Setup
 
-This script uses ANSI color codes (256 color mode) to display colors in a terminal. These are notoriously non-portable, so may not work for you out of the box, but try setting your $TERM to `xterm-256color`, because that works for me.
-
-* Patch the font you use for your terminal: see https://github.com/Lokaltog/powerline-fonts
-  * For Cygwin, just download one of the already patched fonts and set your terminal to use it.
-  * If you struggle too much to get working fonts in your terminal, you can use "compatible" mode.
+This script uses ANSI color codes (256 color mode) to display colors in a terminal. These are notoriously non-portable, so may not work for you out of the box, but try setting your $TERM to `xterm-256color`, because that works for me. In order to get all the symbols working correctly, you will have to do the following:
 
 * Clone this repository somewhere:
 
@@ -40,6 +35,16 @@ This script uses ANSI color codes (256 color mode) to display colors in a termin
         ln -s <path/to/powerline-shell.py> ~/powerline-shell.py
 
   * If you don't want the symlink, just copy it somewhere convenient and modify the path in the commands below
+
+* Patch the font you use for your terminal: see `https://github.com/Lokaltog/powerline-fonts`
+  * The `powerline-fonts` repo is included inside this one as a submodule in the `fonts` folder, but is not actually pulled down to your computer by default. Sssuming you have already cloned this repo, and are inside it, the fonts can be pulled with:
+
+        git submodule init
+        git sumbodule update
+
+  * For Cygwin, just download one of the already patched fonts and set your terminal to use it.
+  * If you struggle too much to get working fonts in your terminal, you can use "compatible" mode, which uses only standard unicode characters
+  * If "compatible" mode causes you trouble too, you can use "flat" mode, which uses only standard ASCII characters.
 
 ### All Shells:
 There are a few optional arguments which can be seen by running `powerline-shell.py --help`.
