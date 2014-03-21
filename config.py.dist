@@ -7,24 +7,28 @@
 # prompt. Any segment you add must be present in the segments/ directory
 
 SEGMENTS = [
+    # Battery status on linux systems
+    'battery',
+
+    # Current system time
+    'time',
+
     # Show current virtual environment (see http://www.virtualenv.org/)
     'virtual_env',
 
     # Show the current user's username as in ordinary prompts
     'username',
 
+    # Show a symbol when ssh-ing from another machine
+    'ssh',
+
     # Show the machine's hostname. Mostly used when ssh-ing into other machines
     'hostname',
 
-    # Show a padlock when ssh-ing from another machine
-    'ssh',
-
-    # Show the current directory. If the path is too long, the middle part is
-    # replaced with ellipsis ('...')
+    # Show the current directory. If the path is too long, the middle part is replaced with ellipsis ('...')
     'cwd',
 
-    # Show a padlock if the current user has no write access to the current
-    # directory
+    # Show a padlock if the current user has no write access to the current directory
     'read_only',
 
     # Show the current git branch and status
@@ -41,6 +45,9 @@ SEGMENTS = [
 
     # Show number of running jobs
     'jobs',
+
+    # Cleanly moves to a new line
+    'newline',
 
     # Shows a '#' if the current user is root, '$' otherwise
     # Also, changes color if the last command exited with a non-zero error code

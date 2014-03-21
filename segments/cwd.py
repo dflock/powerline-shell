@@ -2,6 +2,13 @@ import os
 import sys
 
 
+def samefile(path1, path2):
+    # ensure we actually _got_ two comperable arguments...
+    if not path1 or not path2:
+        return False;
+    return os.path.normcase(os.path.normpath(path1)) == os.path.normcase(os.path.normpath(path2))
+
+
 def get_short_path(cwd):
     home = os.getenv('HOME')
     names = cwd.split(os.sep)
@@ -10,7 +17,7 @@ def get_short_path(cwd):
     path = ''
     for i in range(len(names)):
         path += os.sep + names[i]
-        if os.path.samefile(path, home):
+        if samefile(path, home):
             return ['~'] + names[i + 1:]
     if not names[0]:
         return ['/']
