@@ -135,9 +135,9 @@ def add_git_segment():
         if origin_status:
             origin_position = " %d" % int(origin_status[0][1])
             if origin_status[0][0] == 'behind':
-                origin_position += u'\u2193'
+                origin_position += powerline.behind
             if origin_status[0][0] == 'ahead':
-                origin_position += u'\u2191'
+                origin_position += powerline.ahead
 
         if line.find('nothing to commit') >= 0:
             has_pending_commits = False
@@ -155,7 +155,7 @@ def add_git_segment():
 
     # Status flags
     flags = ''.join([
-        u'\u00A7' if has_stash else ''
+        powerline.stash if has_stash else ''
         '+' if has_untracked_files else '',
     ])
     if flags:

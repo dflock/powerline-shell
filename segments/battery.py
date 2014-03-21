@@ -17,12 +17,12 @@ def add_battery_segment():
         return
 
     charge = int(state["POWER_SUPPLY_CAPACITY"])
-    if state["POWER_SUPPLY_STATUS"][0] == 'D':  # "D" for "Discharging"
-        status = u'\U0001F50B'  # Battery symbol
+    if 'Discharging' in state["POWER_SUPPLY_STATUS"][0] == 'D':
+        status = powerline.discharge
     else:
-        status = u'\U0001F50C'  # Power plug symbol
+        status = powerline.charge
 
-    if charge >= 100:  # If fully charged, don't show any status arrows
+    if charge >= 100:  # If fully charged, don't show any status symbol
         charge = 100
         status = ""
 
@@ -37,7 +37,7 @@ def add_battery_segment():
         bg = Color.BATTERY_CRT_BG
         fg = Color.BATTERY_CRT_FG
 
-    # Battery symbol, then percentage remaining, then charge status arrow
+    # Battery symbol, then percentage remaining, then charge status symbol
     powerline.append(" %s%s " % (charge, status), fg, bg)
 
 add_battery_segment()

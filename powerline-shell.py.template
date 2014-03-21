@@ -12,23 +12,38 @@ def warn(msg):
 
 class Powerline:
     symbols = {
-        'compatible': {
+        'flat': {
+            'separator': '',  # None
+            'separator_thin': '|',
             'lock': 'RO',
             'network': 'SSH',
+            'ahead': '>',
+            'behind': '<',
+            'stash': '$',
+            'charge': '+',
+            'discharge': '-',
+        },
+        'compatible': {
             'separator': u'\u25B6',
-            'separator_thin': u'\u276F'
+            'separator_thin': u'\u276F',
+            'lock': 'RO',
+            'network': 'SSH',
+            'ahead': u'\u00BB',
+            'behind': u'\u00AB',
+            'stash': u'\u00A7',
+            'charge': u'+', 
+            'discharge': '-',
         },
         'patched': {
+            'separator': u'\uE0B0',
+            'separator_thin': u'\uE0B1',
             'lock': u'\uE0A2',
             'network': u'\u21D4',
-            'separator': u'\uE0B0',
-            'separator_thin': u'\uE0B1'
-        },
-        'flat': {
-            'lock': 'RO',
-            'network': 'SSH',
-            'separator': '',  # None
-            'separator_thin': '>'
+            'ahead': u'\u2191',
+            'behind': u'\u2193',
+            'stash': u'\u00A7',
+            'charge': u'\U0001F50C',     # Power plug symbol 
+            'discharge': u'\U0001F50B',  # Battery symbol
         },
     }
 
@@ -48,6 +63,10 @@ class Powerline:
         self.network = Powerline.symbols[mode]['network']
         self.separator = Powerline.symbols[mode]['separator']
         self.separator_thin = Powerline.symbols[mode]['separator_thin']
+        self.ahead = Powerline.symbols[mode]['ahead']
+        self.behind = Powerline.symbols[mode]['behind']
+        self.charge = Powerline.symbols[mode]['charge']
+        self.discharge = Powerline.symbols[mode]['discharge']
         self.segments = []
 
     def color(self, prefix, code):
