@@ -39,7 +39,7 @@ This script uses ANSI color codes (256 color mode) to display colors in a termin
 * Patch the font you use for your terminal: see `https://github.com/Lokaltog/powerline-fonts`
   * The `powerline-fonts` repo is included inside this one as a submodule in the `fonts` folder, but is not actually pulled down to your computer by default. Assuming you have already cloned this repo, and are inside it, the fonts can be pulled with:
 
-        git submodule init && git sumbodule update
+        git sumbodule update
 
   * For Cygwin, just download one of the already patched fonts and set your terminal to use it.
   * If you struggle too much to get working fonts in your terminal, you can use "compatible" mode, which uses only standard unicode characters
