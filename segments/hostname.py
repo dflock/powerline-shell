@@ -1,6 +1,5 @@
 from colorsys import hls_to_rgb, rgb_to_hls
 from md5 import md5
-import socket
 
 
 def hexstr2num(hexstr):
@@ -323,6 +322,7 @@ def stringToHashToColorAndOpposite(string):
 
 def add_hostname_segment():
     if powerline.args.colorize_hostname:
+        import socket
         hostname = socket.gethostname()
         FG, BG = stringToHashToColorAndOpposite(hostname)
         FG, BG = (rgb2short(*color) for color in [FG, BG])
