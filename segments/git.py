@@ -1,7 +1,6 @@
 import re
 import subprocess
 import os
-from distutils.version import LooseVersion
 
 
 def add_git_segment():
@@ -123,13 +122,7 @@ def add_git_segment():
     has_untracked_files = False
     origin_position = ""
 
-    # --ignore-submodules isn't supported on old git versions
-    git_ver = str(subprocess.Popen(['git', '--version'], stdout=subprocess.PIPE).communicate()[0])
-    ver = re.findall(r"(?:.* )([\d.]+)", git_ver)[0]
-    if LooseVersion(ver) > LooseVersion('1.7.5'):
-        output = str(subprocess.Popen(['git', 'status', '--ignore-submodules'], stdout=subprocess.PIPE).communicate()[0])
-    else:
-        output = str(subprocess.Popen(['git', 'status'], stdout=subprocess.PIPE).communicate()[0])
+    output = str(subprocess.Popen(['git', 'status'], stdout=subprocess.PIPE).communicate()[0])
 
     for line in output.split('\n'):
         origin_status = re.findall(
