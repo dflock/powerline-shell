@@ -18,5 +18,12 @@
             "ignore": ["E241"],
             "ignore_files": []
         }
-    }
+    },
+    "build_systems":
+    [
+        {
+            "name": "Build powerline",
+            "cmd": ["python", "install.py"]
+        }
+    ]
 }
