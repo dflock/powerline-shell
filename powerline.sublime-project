@@ -1,0 +1,22 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "."
+		}
+	],
+    "settings": {
+        "flake8lint": {
+            "python_interpreter": "auto",
+            "builtins": ["powerline", "Color"],
+            "pyflakes": true,
+            "pep8": true,
+            "complexity": 10,
+            "pep8_max_line_length": 120,
+            "select": [],
+            "ignore": [],
+            "ignore_files": []
+        }
+    }
+}

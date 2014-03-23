@@ -1,5 +1,5 @@
 powerline-shell.py
 *.py[co]
 config.py
-*.sublime-*
+*.sublime-workspace
 *.orig
