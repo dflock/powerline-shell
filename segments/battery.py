@@ -5,6 +5,8 @@ from subprocess import Popen, PIPE
 def add_battery_segment():
     charge = 00
     status = "X"
+
+    # Linux: Read battery status from a system file
     if "Linux" in platform.system():
         status_file = "/sys/class/power_supply/BAT0/uevent"  # This is where it is for me...
         lines = []
@@ -18,13 +20,17 @@ def add_battery_segment():
             # Just assume there is no battery, and don't render a segment.
             return
 
+        # The status file could contain a bunch of key-value pairs structured as:
+        #    KEY=value
         state = dict(s.split('=') for s in lines)
 
         charge = int(state["POWER_SUPPLY_CAPACITY"])
-        if 'Discharging' in state["POWER_SUPPLY_STATUS"][0] == 'D':
+        if 'Discharging' in state["POWER_SUPPLY_STATUS"]:
             status = powerline.discharge
         else:
             status = powerline.charge
+
+    # Cygwin: use the Windows Management Instrumentation Command-line (wmic) to get battery status
     elif "CYGWIN" in platform.system():
         # First, lets (quickly) try to even see if this system _has_ a battery
         line = Popen('wmic path win32_battery get batterystatus', shell=True, stdout=PIPE, stderr=PIPE).stderr.readline()
@@ -34,12 +40,14 @@ def add_battery_segment():
 
         # We're pretty sure we have a battery, so get its status
         try:
-            state = int(Popen('wmic path win32_battery get batterystatus', shell=True, stdout=PIPE).stdout.read().strip().split('\n')[-1])
-            charge = int(Popen('wmic path win32_battery get estimatedchargeremaining', shell=True, stdout=PIPE).stdout.read().strip().split('\n')[-1])
+            out = Popen('wmic path win32_battery get batterystatus', shell=True, stdout=PIPE).stdout.read().strip()
+            state = int(out.split('\n')[-1])
+            out = Popen('wmic path win32_battery get estimatedchargeremaining', shell=True, stdout=PIPE).stdout.read().strip()
+            charge = int(out.split('\n')[-1])
         except ValueError:
-            # This fails if one of these two commands doesn't result in an int, which
-            # probably means that there is no battery to get the status of, so we
-            # are pobably on a desktop. Just abort.
+            # This fails if one of these two commands doesn't parse correctly into
+            # an int, which probably means that there is no battery to get the status
+            # of, so we are pobably on a desktop. Just abort.
             return
 
         if state == 1:

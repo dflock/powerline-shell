@@ -146,6 +146,7 @@ def add_git_segment():
         if line.find('Untracked files') >= 0:
             has_untracked_files = True
 
+    # Check to see if there is a stash
     has_stash = os.path.exists(os.path.join(git_dir, "refs", "stash"))
 
     # Color indicates pending commits
@@ -155,7 +156,7 @@ def add_git_segment():
         bg = Color.REPO_DIRTY_BG
         fg = Color.REPO_DIRTY_FG
 
-    # Status flags
+    # Add status flags
     flags = ''.join([
         powerline.stash if has_stash else ''
         '+' if has_untracked_files else '',
