@@ -16,7 +16,8 @@ def get_fossil_status():
 
 def add_fossil_segment():
     subprocess.Popen(['fossil'], stdout=subprocess.PIPE).communicate()[0]
-    branch = ''.join([i.replace('*', '').strip() for i in os.popen("fossil branch 2> /dev/null").read().strip().split("\n") if i.startswith('*')])
+    branches = os.popen("fossil branch 2> /dev/null").read().strip().split("\n")
+    branch = ''.join([i.replace('*', '').strip() for i in branches if i.startswith('*')])
     if len(branch) == 0:
         return
 
