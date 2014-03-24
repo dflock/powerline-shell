@@ -1,29 +1,37 @@
 {
-	"folders":
-	[
-		{
-			"follow_symlinks": true,
-			"path": "."
-		}
-	],
-    "settings": {
-        "flake8lint": {
-            "python_interpreter": "internal",
-            "builtins": ["powerline", "Color", "warn"],
-            "pyflakes": true,
-            "pep8": true,
-            "complexity": 10,
-            "pep8_max_line_length": 120,
-            "select": [],
-            "ignore": ["E241"],
-            "ignore_files": []
-        }
-    },
-    "build_systems":
-    [
-        {
-            "name": "Build powerline",
-            "cmd": ["python", "install.py"]
-        }
-    ]
+  "folders": [
+    {
+      "follow_symlinks": true,
+      "path": "."
+    }
+  ],
+  "settings": {
+    "flake8lint": {
+      "python_interpreter": "internal",
+      "builtins": [
+        "powerline",
+        "Color",
+        "warn"
+      ],
+      "pyflakes": true,
+      "pep8": true,
+      "complexity": 10,
+      "pep8_max_line_length": 120,
+      "select": [],
+      "ignore": [
+        "E241"
+      ],
+      "ignore_files": []
+    }
+  },
+  "build_systems": [
+    {
+      "name": "Build Powerline",
+      "working_dir": "${project_path:${folder}}",
+      "cmd": [
+        "python",
+        "install.py"
+      ]
+    }
+  ]
 }
