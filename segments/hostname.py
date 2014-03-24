@@ -1,5 +1,5 @@
 from colorsys import hls_to_rgb, rgb_to_hls
-from md5 import md5
+from hashlib import md5
 
 
 def hexstr2num(hexstr):

@@ -59,10 +59,10 @@ def add_battery_segment():
     try:
         # Linux: Read battery status from a system file
         if "Linux" in platform.system():
-            charge, status = get_bat_status_lin()
+            status, charge = get_bat_status_lin()
         # Cygwin: use the Windows Management Instrumentation Command-line (wmic) to get battery status
         elif "CYGWIN" in platform.system():
-            charge, status = get_bat_status_win()
+            status, charge = get_bat_status_win()
         else:
             warn("Unknown OS '%s'. Battery status unavailable.", platform.system())
             return
