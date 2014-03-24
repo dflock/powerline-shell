@@ -314,7 +314,7 @@ def getOppositeColor(r, g, b):
 
 
 def stringToHashToColorAndOpposite(string):
-    string = md5(string).hexdigest()[:6]  # get a random color
+    string = md5(string.encode('utf-8')).hexdigest()[:6]  # get a random color
     color1 = rgbstring2tuple(string)
     color2 = getOppositeColor(*color1)
     return color1, color2
