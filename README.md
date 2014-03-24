@@ -39,7 +39,8 @@ This script uses ANSI color codes (256 color mode) to display colors in a termin
 * Patch the font you use for your terminal: see `https://github.com/Lokaltog/powerline-fonts`
   * The `powerline-fonts` repo is included inside this one as a submodule in the `fonts` folder, but is not actually pulled down to your computer by default. Assuming you have already cloned this repo, and are inside it, the fonts can be pulled with:
 
-        git sumbodule update
+              git submodule init
+              git sumbodule update
 
   * For Cygwin, just download one of the already patched fonts and set your terminal to use it.
   * If you struggle too much to get working fonts in your terminal, you can use "compatible" mode, which uses only standard unicode characters
@@ -104,7 +105,7 @@ The `config.py` file defines which segments are drawn and in which order. Simply
 
 The `segments` directory contains python scripts which are injected as is into a single file `powerline-shell.py.template`. Each segment script defines a function that inserts one or more segments into the prompt. If you want to add a new segment, simply create a new file in the segments directory and add its name to the `config.py` file at the appropriate location.
 
-Make sure that your script does not introduce new globals which might conflict with other scripts. Your script should fail silently and run quickly in any scenario.
+Make sure that your script does not introduce new globals which might conflict with other scripts. Your script should fail silently and run quickly in any scenario. Custom segments should be completely stand alone, not requiring any other files or non-standard packages. Additionally, for maximum compatibility, your segment should provide all its own imports at the top of the file, rather than relying on imports made by other segments.
 
 Make sure you introduce new default colors in `themes/default.py` for every new segment you create. Test your segment with this theme first.
 
