@@ -31,6 +31,20 @@ def add_git_segment():
             "HEAD",
         ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
+    if err:
+        # Maybe its a brand-new, empty repository, so there is no HEAD
+        p = subprocess.Popen(["git", "fsck", ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out2, err2 = p.communicate()
+        # Check if there is no head yet
+        if "HEAD points to an unborn branch" in err2:
+            # Yup, new/empty repo
+            powerline.append(' EMPTY ', Color.REPO_DIRTY_FG, Color.REPO_DIRTY_BG)
+            return
+        else:
+            # Huh. Something is really messed up.
+            warn(err2)
+            return
+
     parts = out.decode('UTF-8').split("\n")[:-1]
     git_dir = parts[0]
     inside_gitdir = parts[1] == 'true'
