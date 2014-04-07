@@ -1,10 +1,13 @@
+# -*- mode: python -*-
 # This is the configuration file for your powerline-shell prompt
 # Every time you make a change to this file, run install.py to apply changes
 #
 # For instructions on how to use the powerline-shell.py script, see the README
 
 # Add, remove or rearrange these segments to customize what you see on the shell
-# prompt. Any segment you add must be present in the segments/ directory
+# prompt. Any segment you add must be present in the segments/ directory, and
+# the segment name here must match the segment file name (minus the extension)
+# _exactly_.
 
 SEGMENTS = [
     # Battery status on linux systems
