@@ -22,6 +22,7 @@ class Powerline:
             'stash': '$',
             'charge': '+',
             'discharge': '-',
+            'ellipses': '...',
         },
         'compatible': {
             'separator': u'\u25B6',
@@ -33,6 +34,7 @@ class Powerline:
             'stash': u'\u00A7',
             'charge': u'+',
             'discharge': '-',
+            'ellipses': u'\u2026',
         },
         'patched': {
             'separator': u'\uE0B0',
@@ -44,6 +46,7 @@ class Powerline:
             'stash': u'\u00A7',
             'charge': u'\U0001F50C',     # Power plug symbol
             'discharge': u'\U0001F50B',  # Battery symbol
+            'ellipses': u'\u2026',
         },
     }
 
@@ -68,6 +71,7 @@ class Powerline:
         self.stash = Powerline.symbols[mode]['stash']
         self.charge = Powerline.symbols[mode]['charge']
         self.discharge = Powerline.symbols[mode]['discharge']
+        self.ellipses = Powerline.symbols[mode]['ellipses']
         self.segments = []
 
     def color(self, prefix, code):

@@ -33,7 +33,7 @@ def add_cwd_segment():
 
     max_depth = powerline.args.cwd_max_depth
     if len(names) > max_depth:
-        names = names[:2] + [u'\u2026'] + names[2 - max_depth:]
+        names = names[:2] + [powerline.ellipses] + names[2 - max_depth:]
 
     if not powerline.args.cwd_only:
         for n in names[:-1]:
