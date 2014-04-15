@@ -25,8 +25,8 @@ class Powerline:
             'ellipses': '...',
         },
         'compatible': {
-            'separator': u'\u25B6',
-            'separator_thin': u'\u276F',
+            'separator': u'\u25BA',
+            'separator_thin': u'\u203A',
             'lock': 'RO',
             'network': 'SSH',
             'ahead': u'\u00BB',
