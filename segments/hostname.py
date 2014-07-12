@@ -326,7 +326,7 @@ def add_hostname_segment():
         hostname = socket.gethostname()
         FG, BG = stringToHashToColorAndOpposite(hostname)
         FG, BG = (rgb2short(*color) for color in [FG, BG])
-        host_prompt = ' %s' % hostname.split('.')[0]
+        host_prompt = ' %s ' % hostname.split('.')[0]
 
         powerline.append(host_prompt, FG, BG)
     else:
