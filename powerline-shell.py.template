@@ -20,6 +20,7 @@ class Powerline:
             'ahead': '>',
             'behind': '<',
             'stash': '$',
+            'branch': '}',
             'charge': '+',
             'discharge': '-',
             'ellipses': '...',
@@ -32,6 +33,7 @@ class Powerline:
             'ahead': u'\u00BB',
             'behind': u'\u00AB',
             'stash': u'\u00A7',
+            'branch': u'\u23AC',
             'charge': u'+',
             'discharge': '-',
             'ellipses': u'\u2026',
@@ -44,6 +46,7 @@ class Powerline:
             'ahead': u'\u2191',
             'behind': u'\u2193',
             'stash': u'\u00A7',
+            'branch': u'\uE0A0',
             'charge': u'\U0001F50C',     # Power plug symbol
             'discharge': u'\U0001F50B',  # Battery symbol
             'ellipses': u'\u2026',
@@ -69,6 +72,7 @@ class Powerline:
         self.ahead = Powerline.symbols[mode]['ahead']
         self.behind = Powerline.symbols[mode]['behind']
         self.stash = Powerline.symbols[mode]['stash']
+        self.branch = Powerline.symbols[mode]['branch']
         self.charge = Powerline.symbols[mode]['charge']
         self.discharge = Powerline.symbols[mode]['discharge']
         self.ellipses = Powerline.symbols[mode]['ellipses']

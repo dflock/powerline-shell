@@ -172,7 +172,7 @@ def add_git_segment():
         branch += " " + flags
     branch += origin_position
 
-    powerline.append(' %s ' % branch, fg, bg)
+    powerline.append(' %s %s ' % (powerline.branch, branch), fg, bg)
 
 try:
     add_git_segment()
