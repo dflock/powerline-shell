@@ -123,7 +123,7 @@ def add_git_segment():
     # Assemble the display data
     if step and total:
         xtra += " %s/%s" % (step, total)
-    branch = head + xtra
+    branch = "%s %s%s" % (powerline.branch, head, xtra)
 
     if inside_gitdir:
         if bare_repo:
@@ -172,7 +172,7 @@ def add_git_segment():
         branch += " " + flags
     branch += origin_position
 
-    powerline.append(' %s %s ' % (powerline.branch, branch), fg, bg)
+    powerline.append(' %s ' % branch, fg, bg)
 
 try:
     add_git_segment()
