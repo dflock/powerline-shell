@@ -9,9 +9,8 @@ def get_colors_for_hostname(hostname):
         range(124, 136), range(160, 172), range(196, 208)
     )
 
-
     crange = cmax - cmin + 1
-    bg = (crc32(hostname) % crange) + cmin
+    bg = (crc32(hostname.encode('utf8')) % crange) + cmin
     fg = 7 if (True in [bg in r for r in white_fg]) else 8
     return (fg, bg)
 
