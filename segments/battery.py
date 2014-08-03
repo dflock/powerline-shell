@@ -36,9 +36,9 @@ def get_bat_status_lin():
     status_file = "/sys/class/power_supply/BAT0/uevent"  # This is where it is for me...
     lines = []
     try:
-        with open(status_file) as fh:
+        with open(status_file) as handle:
             # Convert the key=value lines in the file into a dictionary
-            lines = fh.readlines()
+            lines = handle.readlines()
     except IOError:
         # This could fail for any number of reasons, but the most likely is that the
         # file called for does not exist (i.e.: you are running on a desktop, or something).

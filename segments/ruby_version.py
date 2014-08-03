@@ -4,9 +4,9 @@ import os
 
 def add_ruby_version_segment():
     try:
-        p1 = subprocess.Popen(["ruby", "-v"], stdout=subprocess.PIPE)
-        p2 = subprocess.Popen(["sed", "s/ (.*//"], stdin=p1.stdout, stdout=subprocess.PIPE)
-        version = p2.communicate()[0].rstrip()
+        process1 = subprocess.Popen(["ruby", "-v"], stdout=subprocess.PIPE)
+        process2 = subprocess.Popen(["sed", "s/ (.*//"], stdin=process1.stdout, stdout=subprocess.PIPE)
+        version = process2.communicate()[0].rstrip()
         if "GEM_HOME" in os.environ:
             gem = os.environ["GEM_HOME"].split("@")
             if len(gem) > 1:

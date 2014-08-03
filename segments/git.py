@@ -6,20 +6,20 @@ import os
 def add_git_segment():
     # Quickly check to see if this is even a git repo
     # See http://git-blame.blogspot.com/2013/06/checking-current-branch-programatically.html
-    p = subprocess.Popen(
+    process = subprocess.Popen(
         [
             'git',
             'symbolic-ref',
             '-q',
             'HEAD'
         ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, err = p.communicate()
+    out, err = process.communicate()
 
     if 'Not a git repo' in str(err):
         return
 
     # Get some more info about the repo
-    p = subprocess.Popen(
+    process = subprocess.Popen(
         [
             "git",
             "rev-parse",
@@ -30,11 +30,11 @@ def add_git_segment():
             "--short",
             "HEAD",
         ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, err = p.communicate()
+    out, err = process.communicate()
     if err:
         # Maybe its a brand-new, empty repository, so there is no HEAD
-        p = subprocess.Popen(["git", "fsck", ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out2, err2 = p.communicate()
+        process = subprocess.Popen(["git", "fsck", ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        dummy_out, err2 = process.communicate()
         # Check if there is no head yet
         if "HEAD points to an unborn branch" in str(err2):
             # Yup, new/empty repo
@@ -58,12 +58,12 @@ def add_git_segment():
     total = ""
     # See if we are in a rebase/merge
     if os.path.isdir(os.path.join(git_dir, "rebase-merge")):
-        with open(os.path.join(git_dir, "rebase-merge", "head-name")) as fh:
-            head = fh.read().strip()
-        with open(os.path.join(git_dir, "rebase-merge", "msgnum")) as fh:
-            step = fh.read().strip()
-        with open(os.path.join(git_dir, "rebase-merge", "end")) as fh:
-            total = fh.read().strip()
+        with open(os.path.join(git_dir, "rebase-merge", "head-name")) as handle:
+            head = handle.read().strip()
+        with open(os.path.join(git_dir, "rebase-merge", "msgnum")) as handle:
+            step = handle.read().strip()
+        with open(os.path.join(git_dir, "rebase-merge", "end")) as handle:
+            total = handle.read().strip()
         if os.path.exists(os.path.join(git_dir, "rebase-merge", "interactive")):
             xtra = "|REBASE-i"
         else:
@@ -71,13 +71,13 @@ def add_git_segment():
     else:
         # Not in a rebase/merge, something else must be going on...
         if os.path.isdir(os.path.join(git_dir, "rebase-apply")):
-            with open(os.path.join(git_dir, "rebase-apply", "next")) as fh:
-                step = fh.read().strip()
-            with open(os.path.join(git_dir, "rebase-apply", "last")) as fh:
-                total = fh.read().strip()
+            with open(os.path.join(git_dir, "rebase-apply", "next")) as handle:
+                step = handle.read().strip()
+            with open(os.path.join(git_dir, "rebase-apply", "last")) as handle:
+                total = handle.read().strip()
             if os.path.exists(os.path.join(git_dir, "rebase-apply", "rebasing")):
-                with open(os.path.join(git_dir, "rebase-apply", "head-name")) as fh:
-                    head = fh.read().strip()
+                with open(os.path.join(git_dir, "rebase-apply", "head-name")) as handle:
+                    head = handle.read().strip()
                 xtra = "|REBASE"
             elif os.path.exists(os.path.join(git_dir, "rebase-apply", "applying")):
                 xtra = "|AM"
@@ -94,15 +94,15 @@ def add_git_segment():
 
     # If we haven't found a name for the head yet, try to get one
     if not head:
-        with open(os.path.join(git_dir, "HEAD")) as fh:
+        with open(os.path.join(git_dir, "HEAD")) as handle:
             # Strip "/refs/heads/"
-            parts = fh.read().strip().split('/')
+            parts = handle.read().strip().split('/')
             if len(parts) == 3:
                 head = parts[-1]
 
     # Still no head? Maybe its a tag. Try to get a description.
     if not head:
-        p = subprocess.Popen(
+        process = subprocess.Popen(
             [
                 'git',
                 'describe',
@@ -110,7 +110,7 @@ def add_git_segment():
                 '--exact-match',
                 'HEAD'
             ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = p.communicate()
+        out, err = process.communicate()
         if not err:
             head = "%s" % out.decode('UTF-8').strip()
             xtra = "|TAG"

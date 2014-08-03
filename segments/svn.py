@@ -7,22 +7,22 @@ def add_svn_segment():
     if len(is_svn_output) != 0:
         return
 
-    p0 = subprocess.Popen(['svn', 'info'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    info_raw = p0.communicate()[0].strip()
+    process0 = subprocess.Popen(['svn', 'info'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    info_raw = process0.communicate()[0].strip()
     info = {}
     for pair in info_raw.split("\n"):
         vals = pair.split(":")
-        k = vals[0]
-        v = vals[1]
-        info[k] = v.strip()
+        key = vals[0]
+        val = vals[1]
+        info[key] = val.strip()
     rev = ""
     if info["Revision"]:
         rev = info["Revision"]
 
     # Run "svn status | grep -c "^[ACDIMRX\\!\\~]" and parse:
-    p1 = subprocess.Popen(['svn', 'status'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p2 = subprocess.Popen(['grep', '-c', '^[ACDIMR\\!\\~]'], stdin=p1.stdout, stdout=subprocess.PIPE)
-    output = p2.communicate()[0].strip()
+    process1 = subprocess.Popen(['svn', 'status'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process2 = subprocess.Popen(['grep', '-c', '^[ACDIMR\\!\\~]'], stdin=process1.stdout, stdout=subprocess.PIPE)
+    output = process2.communicate()[0].strip()
     changes = ""
     if len(output) > 0 and int(output) > 0:
         changes = u" \u00B1 %s" % output.strip()
