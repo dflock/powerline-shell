@@ -1,15 +1,18 @@
 def get_colors_for_hostname(hostname):
-    cmin = 17    # min ANSI color to use
-    cmax = 231   # max ANSI color to use
-    white_fg = ( # color ranges that should use white FG
-        range(16,34), range(52,70), range(88,106), 
-        range(124,136), range(160,172), range(196,208)
+    cmin = 17     # min ANSI color to use
+    cmax = 231    # max ANSI color to use
+
+    # color ranges that should use white FG
+    white_fg = (
+        range(16, 34), range(52, 70), range(88, 106),
+        range(124, 136), range(160, 172), range(196, 208)
     )
 
     crange = cmax - cmin + 1
     bg = (hash(hostname) % crange) + cmin
     fg = 7 if (True in [bg in r for r in white_fg]) else 8
-    return (fg,bg)
+    return (fg, bg)
+
 
 def add_hostname_segment():
     if powerline.args.colorize_hostname:

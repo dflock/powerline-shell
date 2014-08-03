@@ -19,7 +19,7 @@ def add_svn_segment():
     if info["Revision"]:
         rev = info["Revision"]
 
-    #"svn status | grep -c "^[ACDIMRX\\!\\~]"
+    # Run "svn status | grep -c "^[ACDIMRX\\!\\~]" and parse:
     p1 = subprocess.Popen(['svn', 'status'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p2 = subprocess.Popen(['grep', '-c', '^[ACDIMR\\!\\~]'], stdin=p1.stdout, stdout=subprocess.PIPE)
     output = p2.communicate()[0].strip()
