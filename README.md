@@ -11,9 +11,9 @@ A [Powerline](https://github.com/Lokaltog/vim-powerline) like prompt for Bash, Z
     *  The git segment is the most mature, but the others should at least get you basic info
 *  Changes color if the last command exited with a failure code
 *  If you're too deep into a directory tree, shortens the displayed path with an ellipsis
-*  Shows current battery status on Linux laptops
+*  Shows current battery status on Linux laptops (or Windows under Cygwin)
 *  Shows the current Python [virtualenv](http://www.virtualenv.org/) environment
-*  Support for Python 2.7+
+*  Support for Python 2.5+
 *  It's easy to customize and extend. See below for details.
 
 # Setup
