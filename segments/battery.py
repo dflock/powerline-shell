@@ -6,7 +6,7 @@ class BatteryException(Exception):
     pass
 
 
-def get_bat_status_win():
+def _get_bat_status_win():
     # First, lets (quickly) try to even see if this system _has_ a battery
     line = Popen('wmic path win32_battery get batterystatus', shell=True, stdout=PIPE, stderr=PIPE).stderr.readline()
     if "No Instance" in line:
@@ -32,7 +32,7 @@ def get_bat_status_win():
     return(status, charge)
 
 
-def get_bat_status_lin():
+def _get_bat_status_lin():
     status_file = "/sys/class/power_supply/BAT0/uevent"  # This is where it is for me...
     lines = []
     try:
@@ -59,10 +59,10 @@ def add_battery_segment():
     try:
         # Linux: Read battery status from a system file
         if "Linux" in platform.system():
-            status, charge = get_bat_status_lin()
+            status, charge = _get_bat_status_lin()
         # Cygwin: use the Windows Management Instrumentation Command-line (wmic) to get battery status
         elif "CYGWIN" in platform.system():
-            status, charge = get_bat_status_win()
+            status, charge = _get_bat_status_win()
         else:
             warn("Unknown OS '%s'. Battery status unavailable.", platform.system())
             return
