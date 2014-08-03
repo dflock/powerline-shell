@@ -1,4 +1,5 @@
 def get_colors_for_hostname(hostname):
+    from binascii import crc32
     cmin = 17     # min ANSI color to use
     cmax = 231    # max ANSI color to use
 
@@ -8,8 +9,9 @@ def get_colors_for_hostname(hostname):
         range(124, 136), range(160, 172), range(196, 208)
     )
 
+
     crange = cmax - cmin + 1
-    bg = (hash(hostname) % crange) + cmin
+    bg = (crc32(hostname) % crange) + cmin
     fg = 7 if (True in [bg in r for r in white_fg]) else 8
     return (fg, bg)
 
