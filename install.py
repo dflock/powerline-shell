@@ -27,10 +27,20 @@ def load_source(srcfile):
 if __name__ == "__main__":
     source = load_source(TEMPLATE_FILE)
     source += load_source(os.path.join(THEMES_DIR, 'default.py'))
+
+    # Load any specified theme
     if config.THEME != "default":
         source += load_source(os.path.join(THEMES_DIR, config.THEME + '.py'))
+
+    # Load segments
     for segment in config.SEGMENTS:
         source += load_source(os.path.join(SEGMENTS_DIR, segment + '.py'))
+
+    # Load any right-to-left segments
+    if config.RIGHT_SEGMENTS:
+        for segment in config.RIGHT_SEGMENTS:
+            source += load_source(os.path.join(SEGMENTS_DIR, segment + '.py'))
+
     source += '''
 import sys
 if sys.version > '3':
