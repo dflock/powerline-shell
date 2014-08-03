@@ -5,23 +5,19 @@
       "path": "."
     }
   ],
-  "settings": {
-    "flake8lint": {
-      "python_interpreter": "internal",
-      "builtins": [
-        "powerline",
-        "Color",
-        "warn"
-      ],
-      "pyflakes": true,
-      "pep8": true,
-      "complexity": 10,
-      "pep8_max_line_length": 120,
-      "select": [],
-      "ignore": [
-        "E241"
-      ],
-      "ignore_files": []
+  "SublimeLinter":
+  {
+    "linters":
+    {
+      "flake8":
+      {
+        // These functions are defined globally in the template
+        "builtins": "powerline,Color,warn",
+      },
+      "pylint":
+      {
+        "disable": "E241,E0602",
+      }
     }
   },
   "build_systems": [
