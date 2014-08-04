@@ -30,7 +30,7 @@ def _get_uptime_lin():
     # -1h   00:00:00 up 120 days, 49 min,  2 users,  load average: 0,00, 0,00, 0,00
     # mac:  00:00:00 up 23  3 day(s), 10:00,  2 users,  load average: 0,00, 0,00, 0,00
     try:
-        output = subprocess.check_output(['uptime'], stderr=subprocess.STDOUT)
+        output = subprocess.check_output(['uptime'], stderr=subprocess.STDOUT).decode('utf8')
         raw_uptime = re.search(r'(?<=up).+(?=,\s+\d+\s+user)', output).group(0)
         day_search = re.search(r'\d+(?=\s+day)', output)
         days = '' if not day_search else '%sd' % day_search.group(0)
