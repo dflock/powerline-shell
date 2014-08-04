@@ -143,11 +143,11 @@ class Powerline:
             right += self.draw_right_segment(i)
 
         width, _ = get_terminal_size()
-        spacing = width - _rendered_length(left) - _rendered_length(right) - 6
-        # warn(spacing)
+        spacing = width - _rendered_length(right)
+        warn(spacing)
 
-        # return ("`printf '%%s%%%ss' '%s' '%s'`" % (spacing, left, right) + self.reset).encode('utf8')
-        return ("%s%s%s" % (left, " "*spacing, right) + self.reset).encode('utf8')
+        return ("$(printf '%%%ss\\r' '%s')" % (spacing, right) + self.reset).encode('utf8')
+        # return ("%s%s%s" % (left, " "*spacing, right) + self.reset).encode('utf8')
 
     def draw_segment(self, idx):
         segment = self.segments[idx]
