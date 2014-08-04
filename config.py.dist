@@ -10,9 +10,6 @@
 # _exactly_.
 
 SEGMENTS = [
-    # Battery status on linux systems
-    'battery',
-
     # Current system time
     'time',
 
@@ -46,15 +43,23 @@ SEGMENTS = [
     # Show the current fossil branch and status
     'fossil',
 
-    # Show number of running jobs
-    'jobs',
-
     # Cleanly moves to a new line
     'newline',
 
     # Shows a '#' if the current user is root, '$' otherwise
     # Also, changes color if the last command exited with a non-zero error code
     'root',
+]
+
+RIGHT_SEGMENTS = [
+    # Show number of running jobs
+    # 'jobs',
+
+    # System uptime
+    # 'uptime',
+
+    # Battery status on linux systems
+    # 'battery',
 ]
 
 # Change the colors used to draw individual segments in your prompt

@@ -19,6 +19,7 @@ import re
 def warn(msg):
     '''Emit a warning to the end user'''
     print('[powerline-shell] %s' % msg)
+    sys.stdout.flush()
 
 
 class Powerline:
@@ -142,12 +143,16 @@ class Powerline:
         for i, _ in enumerate(self.right_segments):
             right += self.draw_right_segment(i)
 
-        width, _ = get_terminal_size()
-        spacing = width - _rendered_length(right)
-        warn(spacing)
+        # right = _strip_escapes(right)
+        # warn("|%s| => %s" % (right, len(right)))
+        # right = "right"
+        # left = "left >"
 
-        return ("$(printf '%%%ss\\r' '%s')" % (spacing, right) + self.reset).encode('utf8')
-        # return ("%s%s%s" % (left, " "*spacing, right) + self.reset).encode('utf8')
+        width, _ = get_terminal_size()
+        spacing = width - len(_strip_escapes(right))
+        # warn(spacing)
+
+        return ("\\[\\r\\]" + " "*spacing + right + "\\[\\r\\]" + left + self.reset).encode('utf8')
 
     def draw_segment(self, idx):
         segment = self.segments[idx]
@@ -174,9 +179,10 @@ class Powerline:
             segment[0]))
 
 
-def _rendered_length(prompt):
+def _strip_escapes(prompt):
     cleaned = re.sub(r'\\\[.+?\\\]', '', prompt)
-    return len(cleaned)
+    # warn(cleaned)
+    return cleaned
 
 
 def get_terminal_size():
