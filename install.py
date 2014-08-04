@@ -39,7 +39,8 @@ if __name__ == "__main__":
     # Load any right-to-left segments
     if config.RIGHT_SEGMENTS:
         for segment in config.RIGHT_SEGMENTS:
-            source += load_source(os.path.join(SEGMENTS_DIR, segment + '.py'))
+            segment = load_source(os.path.join(SEGMENTS_DIR, segment + '.py'))
+            source += segment.replace("powerline.append", "powerline.append_right")
 
     source += '''
 import sys

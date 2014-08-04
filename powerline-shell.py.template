@@ -13,6 +13,7 @@ import shlex
 import struct
 import platform
 import subprocess
+import re
 
 
 def warn(msg):
@@ -25,6 +26,8 @@ class Powerline:
         'flat': {
             'separator': '',  # None
             'separator_thin': '|',
+            'rseparator': '',
+            'rseparator_thin': '|',
             'lock': 'RO',
             'network': 'SSH',
             'ahead': '>',
@@ -38,6 +41,8 @@ class Powerline:
         'compatible': {
             'separator': u'\u25BA',
             'separator_thin': u'\u203A',
+            'rseparator': u'\u25C0',
+            'rseparator_thin': u'\u2039',
             'lock': 'RO',
             'network': 'SSH',
             'ahead': u'\u00BB',
@@ -51,6 +56,8 @@ class Powerline:
         'patched': {
             'separator': u'\uE0B0',
             'separator_thin': u'\uE0B1',
+            'rseparator': u'\uE0B2',
+            'rseparator_thin': u'\uE0B3',
             'lock': u'\uE0A2',
             'network': u'\u21D4',
             'ahead': u'\u2191',
@@ -79,6 +86,8 @@ class Powerline:
         self.network = Powerline.symbols[mode]['network']
         self.separator = Powerline.symbols[mode]['separator']
         self.separator_thin = Powerline.symbols[mode]['separator_thin']
+        self.rseparator = Powerline.symbols[mode]['rseparator']
+        self.rseparator_thin = Powerline.symbols[mode]['rseparator_thin']
         self.ahead = Powerline.symbols[mode]['ahead']
         self.behind = Powerline.symbols[mode]['behind']
         self.stash = Powerline.symbols[mode]['stash']
@@ -87,6 +96,7 @@ class Powerline:
         self.discharge = Powerline.symbols[mode]['discharge']
         self.ellipses = Powerline.symbols[mode]['ellipses']
         self.segments = []
+        self.right_segments = []
 
     def color(self, prefix, code):
         return self.color_template % ('[%s;5;%sm' % (prefix, code))
@@ -99,12 +109,45 @@ class Powerline:
 
 
     def append(self, content, fg, bg, separator=None, separator_fg=None):
-        self.segments.append((content, fg, bg, separator or self.separator,
+        '''Append the string to the powerline'''
+        self.segments.append((content,
+                              fg,
+                              bg,
+                              separator or self.separator,
                               separator_fg or bg))
 
+    def append_right(self, content, fg, bg, separator=None, separator_fg=None):
+        '''Append the string to the powerline, from the right'''
+        # Swap normal separator for right separator
+        if separator == self.separator:
+            sep = self.rseparator
+        elif separator == self.separator_thin:
+            sep = self.rseparator_thin
+        else:
+            sep = separator
+
+        self.right_segments.append((content,
+                                    fg,
+                                    bg,
+                                    sep or self.rseparator,
+                                    separator_fg or bg))
+
     def draw(self):
-        return (''.join(self.draw_segment(i) for i in range(len(self.segments)))
-                + self.reset).encode('utf-8') + u' '.encode('utf-8')
+        left = ''
+        for i, _ in enumerate(self.segments):
+            left += self.draw_segment(i)
+        left += self.reset
+
+        right = ''
+        for i, _ in enumerate(self.right_segments):
+            right += self.draw_right_segment(i)
+
+        width, _ = get_terminal_size()
+        spacing = width - _rendered_length(left) - _rendered_length(right) - 6
+        # warn(spacing)
+
+        # return ("`printf '%%s%%%ss' '%s' '%s'`" % (spacing, left, right) + self.reset).encode('utf8')
+        return ("%s%s%s" % (left, " "*spacing, right) + self.reset).encode('utf8')
 
     def draw_segment(self, idx):
         segment = self.segments[idx]
@@ -117,6 +160,23 @@ class Powerline:
             self.bgcolor(next_segment[2]) if (next_segment and next_segment[2]) else self.reset,
             self.fgcolor(segment[4]),
             segment[3]))
+
+    def draw_right_segment(self, idx):
+        segment = self.right_segments[idx]
+        prev_segment = self.right_segments[idx - 1] if idx > 0 else None
+
+        return ''.join((
+            self.bgcolor(prev_segment[2]) if (prev_segment and prev_segment[2]) else self.reset,
+            self.fgcolor(segment[4]),
+            segment[3],
+            self.fgcolor(segment[1]) if segment[1] else self.reset,
+            self.bgcolor(segment[2]) if segment[2] else self.reset,
+            segment[0]))
+
+
+def _rendered_length(prompt):
+    cleaned = re.sub(r'\\\[.+?\\\]', '', prompt)
+    return len(cleaned)
 
 
 def get_terminal_size():
