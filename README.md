@@ -99,7 +99,16 @@ Redefine `fish_prompt` in ~/.config/fish/config.fish:
 
 ### Adding, Removing and Re-arranging segments
 
-The `config.py` file defines which segments are drawn and in which order. Simply comment out and rearrange segment names to get your desired arrangement. Every time you change `config.py`, run `install.py`, which will generate a new `powerline-shell.py` customized to your configuration. You should see the new prompt immediately.
+The `config.py` file defines which segments are drawn and in which order. Simply comment out and rearrange segment names to get your desired arrangement. Every time you change `config.py`, run `install.py`, which will generate a new `powerline-shell.py` customized to your configuration. If you symlinked the built file, you should see the new prompt immediately. Otherwise, copy it over your existing `powerline-shell.py`, and you should be good to go.
+
+### Right-aligned segments
+Right-aligned segments are kind of a hack right now, so be warned. If you have trouble with them, please open a ticket and let me know what's not working. To set up right-aligned segments, just add them to the `RIGHT_SEGMENTS` list in `config.py` and do the normal build.
+
+Current limitations:
+* They seem to work (in bash at least), but only if you are running a multi-line prompt (at least one `newline` segment).
+* If your left and right segments begin to collide, left segments will overwrite right segments
+* Old lines do not get moved left/right if the terminal is resized
+* Probably lots of other stuff too.
 
 ### Contributing new types of segments
 
