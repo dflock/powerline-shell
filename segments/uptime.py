@@ -16,9 +16,7 @@ def _get_uptime_win():
     hours, remainder = divmod(up_time.seconds, 3600)
     minutes, _ = divmod(remainder, 60)
 
-    return " ".join(["%sd" % days if days > 0 else "",
-                     "%sh" % hours if hours > 0 else "",
-                     "%sm" % minutes])
+    return " ".join(["%sd" % days, "%sh" % hours, "%sm" % minutes])
 
 
 def _get_uptime_lin():
