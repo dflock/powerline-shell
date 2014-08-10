@@ -37,15 +37,15 @@ This script uses ANSI color codes (256 color mode) to display colors in a termin
   * If you don't want the symlink, just copy it somewhere convenient and modify the path in the commands below
   * If you want to get _really_ fancy, you can run the output powerline-shell.py file through [pyinstller](http://www.pyinstaller.org/), which will get you a single binary exe that should be independant of the system python.
 
-        ./install.py
-        pyinstaller -F powerline-shell.py
-        cp ./dist/powerline-shell ~/bin/
+            ./install.py
+            pyinstaller -F powerline-shell.py
+            cp ./dist/powerline-shell ~/bin/
 
 * Patch the font you use for your terminal: see `https://github.com/Lokaltog/powerline-fonts`
   * The `powerline-fonts` repo is included inside this one as a submodule in the `fonts` folder, but is not actually pulled down to your computer by default. Assuming you have already cloned this repo, and are inside it, the fonts can be pulled with:
 
-        git submodule init
-        git sumbodule update
+            git submodule init
+            git sumbodule update
 
   * For Cygwin, just download one of the already patched fonts and set your terminal to use it.
   * If you struggle too much to get working fonts in your terminal, you can use "compatible" mode, which uses only standard unicode characters
