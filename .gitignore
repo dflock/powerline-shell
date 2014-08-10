@@ -1,5 +1,8 @@
+build/
+dist/
 powerline-shell.py
-*.py[co]
 config.py
+*.py[co]
 *.sublime-workspace
 *.orig
+*.spec
