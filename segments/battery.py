@@ -8,7 +8,8 @@ class BatteryException(Exception):
 
 def _get_bat_status_win():
     # First, lets (quickly) try to even see if this system _has_ a battery
-    line = Popen('wmic path win32_battery get batterystatus', shell=True, stdout=PIPE, stderr=PIPE).stderr.readline()
+    line = Popen('wmic path win32_battery get batterystatus',
+                 shell=True, stdout=PIPE, stderr=PIPE).stderr.readline().decode('utf8')
     if "No Instance" in line:
         # Nope, no battery. Bail out now.
         raise BatteryException("No battery in system")
@@ -16,10 +17,10 @@ def _get_bat_status_win():
     # We're pretty sure we have a battery, so get its status
     try:
         out = Popen('wmic path win32_battery get batterystatus',
-                    shell=True, stdout=PIPE).stdout.read().strip()
+                    shell=True, stdout=PIPE).stdout.read().decode('utf8').strip()
         state = int(out.split('\n')[-1])
         out = Popen('wmic path win32_battery get estimatedchargeremaining',
-                    shell=True, stdout=PIPE).stdout.read().strip()
+                    shell=True, stdout=PIPE).stdout.read().decode('utf8').strip()
         charge = int(out.split('\n')[-1])
     except ValueError:
         # This fails if one of these two commands doesn't parse correctly into
@@ -61,10 +62,10 @@ def add_battery_segment():
         if "Linux" in platform.system():
             status, charge = _get_bat_status_lin()
         # Cygwin: use the Windows Management Instrumentation Command-line (wmic) to get battery status
-        elif "CYGWIN" in platform.system():
+        elif "CYGWIN" in platform.system() or "Windows" in platform.system():
             status, charge = _get_bat_status_win()
         else:
-            warn("Unknown OS '%s'. Battery status unavailable.", platform.system())
+            warn("Unknown OS '%s'. Battery status unavailable." % platform.system())
             return
     except BatteryException:
         # If we had trouble getting the battery info, just quit now.

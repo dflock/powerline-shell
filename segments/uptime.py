@@ -6,8 +6,8 @@ from datetime import datetime
 
 def _get_uptime_win():
     out = subprocess.Popen('net statistics server',
-                           shell=True, stdout=subprocess.PIPE).stdout.read().strip()
-    boot_line = [line for line in out.split('\r\n') if line][1]
+                           shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf8').strip()
+    boot_line = [line for line in out.split("\r\n") if line][1]
     boot_str = ' '.join(boot_line.split()[2:])
     boot_time = datetime.strptime(boot_str, "%m/%d/%Y %I:%M:%S %p")
     now_time = datetime.now()
@@ -41,14 +41,15 @@ def _get_uptime_lin():
 
 
 def add_uptime_segment():
-    # Linux: Get uptime from the "uptime" command
-    if "Linux" in platform.system():
+    os_name = platform.system()
+    # Linux: Get up_timetime from the "uptime" command
+    if "Linux" in os_name:
         uptime = _get_uptime_lin()
     # Cygwin: use the Windows "net" command to get uptime
-    elif "CYGWIN" in platform.system():
+    elif "CYGWIN" in os_name or "Windows" in os_name:
         uptime = _get_uptime_win()
     else:
-        warn("Unknown OS '%s'. Uptime unavailable.", platform.system())
+        warn("Unknown OS '%s'. Uptime unavailable." % platform.system())
         return
 
     if not uptime:

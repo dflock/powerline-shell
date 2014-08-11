@@ -33,7 +33,6 @@ def add_jobs_segment():
 
     else:
         # This _should_ never happen. What are you running this under?
-        warn("Unrecognized OS: %s" % platform.system())
         return
 
     if num_jobs > 0:
