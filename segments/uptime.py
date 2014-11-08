@@ -9,7 +9,10 @@ def _get_uptime_win():
                            shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf8').strip()
     boot_line = [line for line in out.split("\r\n") if line][1]
     boot_str = ' '.join(boot_line.split()[2:])
-    boot_time = datetime.strptime(boot_str, "%m/%d/%Y %I:%M:%S %p")
+    time_fmt = "%m/%d/%Y %I:%M:%S %p"
+    if boot_str[-1] != "m":
+        time_fmt = "%m/%d/%Y %H:%M:%S"
+    boot_time = datetime.strptime(boot_str, time_fmt)
     now_time = datetime.now()
     up_time = now_time-boot_time
     days = up_time.days
