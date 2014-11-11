@@ -16,12 +16,12 @@ import subprocess
 import re
 
 # For compatibility with Python<=2.6
-if "check_output" not in dir( subprocess ): # duck punch it in!
+if "check_output" not in dir(subprocess):  # duck punch it in!
     def f(*popenargs, **kwargs):
         if 'stdout' in kwargs:
             raise ValueError('stdout argument not allowed, it will be overridden.')
         process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
-        output, unused_err = process.communicate()
+        output, dummy_err = process.communicate()
         retcode = process.poll()
         if retcode:
             cmd = kwargs.get("args")
