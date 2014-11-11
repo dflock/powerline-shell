@@ -10,7 +10,7 @@ def _get_uptime_win():
     boot_line = [line for line in out.split("\r\n") if line][1]
     boot_str = ' '.join(boot_line.split()[2:])
     time_fmt = "%m/%d/%Y %I:%M:%S %p"
-    if boot_str[-1] != "m":
+    if boot_str[-1] != "M":
         time_fmt = "%m/%d/%Y %H:%M:%S"
     boot_time = datetime.strptime(boot_str, time_fmt)
     now_time = datetime.now()
