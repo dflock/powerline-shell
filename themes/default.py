@@ -41,7 +41,7 @@ class DefaultColor:
     SVN_CHANGES_FG = 22     # dark green
 
     VIRTUAL_ENV_BG = 35     # a mid-tone green
-    VIRTUAL_ENV_FG = 00     # black
+    VIRTUAL_ENV_FG = 236    # black
 
     BATTERY_NRM_BG = 22
     BATTERY_NRM_FG = 254
